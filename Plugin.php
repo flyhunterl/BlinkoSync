@@ -16,8 +16,6 @@ class BlinkoSync_Plugin implements Typecho_Plugin_Interface
      */
     public static function activate()
     {
-        // 修改钩子位置为 write-post.php:writeBottom
-        Typecho_Plugin::factory('admin/write-post.php:writeBottom')->render = array('BlinkoSync_Plugin', 'render');
         Typecho_Plugin::factory('Widget_Contents_Post_Edit')->finishPublish = array('BlinkoSync_Plugin', 'sync');
         return _t('插件已经激活，请配置Blinko API设置');
     }
@@ -69,8 +67,9 @@ class BlinkoSync_Plugin implements Typecho_Plugin_Interface
      */
     public static function sync($contents, $post)
     {
-        // 检查是否选择了同步
-        if (empty($post->request->syncToBlinko) || !in_array('sync', $post->request->syncToBlinko)) {
+        // 判断是否为新文章
+        if (!empty($contents['cid'])) {
+            // 如果文章已有ID，说明是更新文章，直接返回
             return $contents;
         }
 
@@ -79,7 +78,7 @@ class BlinkoSync_Plugin implements Typecho_Plugin_Interface
         
         // 准备POST数据
         $postData = array(
-            'content' => $contents['text'],  // 文章内容
+            'content' => $contents['text'],
             'type' => 0,
             'attachments' => array(),
             'isArchived' => null,
@@ -116,23 +115,5 @@ class BlinkoSync_Plugin implements Typecho_Plugin_Interface
         curl_close($ch);
 
         return $contents;
-    }
-
-    /**
-     * 添加 render 方法来显示同步选项
-     */
-    public static function render()
-    {
-        ?>
-        <section class="typecho-post-option">
-            <label for="syncToBlinko-0" class="typecho-label">同步到Blinko</label>
-            <p>
-                <span>
-                    <input type="checkbox" id="syncToBlinko-0" name="syncToBlinko[]" value="sync" checked="true" />
-                    <label for="syncToBlinko-0">将文章同步到Blinko平台</label>
-                </span>
-            </p>
-        </section>
-        <?php
     }
 } 
