@@ -16,8 +16,8 @@ class BlinkoSync_Plugin implements Typecho_Plugin_Interface
      */
     public static function activate()
     {
-        // 添加文章编辑页面的自定义字段
-        Typecho_Plugin::factory('admin/write-post.php:bottom')->render = array('BlinkoSync_Plugin', 'render');
+        // 修改钩子位置为 write-post.php:writeBottom
+        Typecho_Plugin::factory('admin/write-post.php:writeBottom')->render = array('BlinkoSync_Plugin', 'render');
         Typecho_Plugin::factory('Widget_Contents_Post_Edit')->finishPublish = array('BlinkoSync_Plugin', 'sync');
         return _t('插件已经激活，请配置Blinko API设置');
     }
@@ -121,15 +121,18 @@ class BlinkoSync_Plugin implements Typecho_Plugin_Interface
     /**
      * 添加 render 方法来显示同步选项
      */
-    public static function render($post)
+    public static function render()
     {
-        $form = new Typecho_Widget_Helper_Form_Element_Checkbox(
-            'syncToBlinko',
-            array('sync' => _t('同步到Blinko')),
-            array('sync'),
-            _t('是否将文章同步到Blinko平台'),
-            _t('选中此项后，文章将会被同步到Blinko平台')
-        );
-        $form->render();
+        ?>
+        <section class="typecho-post-option">
+            <label for="syncToBlinko-0" class="typecho-label">同步到Blinko</label>
+            <p>
+                <span>
+                    <input type="checkbox" id="syncToBlinko-0" name="syncToBlinko[]" value="sync" checked="true" />
+                    <label for="syncToBlinko-0">将文章同步到Blinko平台</label>
+                </span>
+            </p>
+        </section>
+        <?php
     }
 } 
