@@ -1,4 +1,6 @@
 # BlinkoSync Plugin for Typecho
+![Uploading image.png…]()
+
 
 这是一个Typecho插件，用于将博客内容同步到Blinko
 Blinko项目https://github.com/blinko-space/blinko
