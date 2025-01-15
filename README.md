@@ -1,6 +1,7 @@
 # BlinkoSync Plugin for Typecho
 
-这是一个Typecho插件，用于将博客内容同步到Blinko平台。
+这是一个Typecho插件，用于将博客内容同步到Blinko
+Blinko项目https://github.com/blinko-space/blinko
 
 ## 安装方法
 
