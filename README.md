@@ -18,7 +18,7 @@ Blinko项目https://github.com/blinko-space/blinko
 
 ## 使用说明
 
-插件启用后，在发布或编辑文章时，新文章将会以Markdown形式同步到Blinko
+插件启用后，在发布文章编辑页面右侧会有一个同步到blinko选择框，勾选后发布文章将会以Markdown形式同步到Blinko
 
 
 ## 注意事项
