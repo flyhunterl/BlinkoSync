@@ -6,7 +6,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
  * 
  * @package BlinkoSync
  * @author flyhunterl
- * @version 1.0.0
+ * @version 1.0.1
  * @link https://llingfei.com
  */
 class BlinkoSync_Plugin implements Typecho_Plugin_Interface
@@ -17,6 +17,7 @@ class BlinkoSync_Plugin implements Typecho_Plugin_Interface
     public static function activate()
     {
         Typecho_Plugin::factory('Widget_Contents_Post_Edit')->finishPublish = array('BlinkoSync_Plugin', 'sync');
+        Typecho_Plugin::factory('admin/write-post.php')->bottom = array('BlinkoSync_Plugin', 'writePostOptions');
         return _t('插件已经激活，请配置Blinko API设置');
     }
 
@@ -73,6 +74,11 @@ class BlinkoSync_Plugin implements Typecho_Plugin_Interface
             return $contents;
         }
 
+        // 判断是否勾选同步
+        if (empty($_POST['sync_to_blinko'])) {
+            return $contents;
+        }
+
         // 获取插件配置
         $config = Typecho_Widget::widget('Widget_Options')->plugin('BlinkoSync');
         
@@ -115,5 +121,17 @@ class BlinkoSync_Plugin implements Typecho_Plugin_Interface
         curl_close($ch);
 
         return $contents;
+    }
+
+    /**
+     * 在发布文章页面添加同步选项
+     */
+    public static function writePostOptions()
+    {
+        echo '<script>';
+        echo '$(document).ready(function(){';
+        echo "$('#tab-advance').append('<section class=\'typecho-post-option\'><label><input type=\'checkbox\' name=\'sync_to_blinko\' value=\'1\' /> 同步到blinko</label></section>');";
+        echo '});';
+        echo '</script>';
     }
 } 
