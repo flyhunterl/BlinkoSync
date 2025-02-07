@@ -30,3 +30,5 @@ Blinko项目https://github.com/blinko-space/blinko
 ## 支持与反馈
 
 如有问题或建议，请访问项目GitHub页面提交issue。 
+
+![3f89fd9d8711f1d165cf91de2994435](https://github.com/user-attachments/assets/c2585baa-b4eb-4fe5-9814-27a367e523d7)
